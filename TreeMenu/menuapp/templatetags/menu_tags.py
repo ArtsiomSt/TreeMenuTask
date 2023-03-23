@@ -8,7 +8,7 @@ register = template.Library()
 @register.inclusion_tag('menuapp/menu.html', takes_context=True)
 def draw_menu(context, name):
     menu_items = list(SubMenu.objects.raw(f"SELECT id, title, parent_id, menu_id, slug FROM menuapp_submenu WHERE menu_id = (SELECT id FROM menuapp_menu WHERE menu_name='{name}')"))
-    first_layer = list(filter(lambda x: x.parent_id is None, menu_items))
+    first_layer = list(filter(lambda x: x.parent_id is None or x.parent_id == x.id, menu_items))
     current_layer = 0
     template_context = {
         "menuname": name,
