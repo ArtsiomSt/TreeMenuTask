@@ -1,0 +1,16 @@
+{% load menu_tags %}
+
+{% if menuname %}
+<h2>{{ menuname}}</h2>
+<hr>
+{% endif %}
+
+
+{% if layer %}
+    {% for sub in layer%}
+        {% if sub in target_tree or is_first_layer or sub.parent_id in target_tree_ids or only_one_layer %}
+        <h2>{% for _ in  current_layer%} &nbsp;&nbsp;&nbsp; {% endfor %}<a href="{{ sub.get_absolute_url }}">{{ sub.title }}</a>{% if sub.id == target %} < You are currently here {% endif %}</h2>
+        {% draw_submenu sub menu_items current_layer target_tree target target_tree_ids%}
+        {% endif %}
+    {% endfor %}
+{% endif %}
